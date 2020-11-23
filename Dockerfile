@@ -17,4 +17,4 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 
 # Commands
 RUN \
-  yarn global add @angular/cli firebase-tools
+  npm install -g @angular/cli firebase-tools
