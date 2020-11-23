@@ -1,4 +1,4 @@
-FROM node:lts
+FROM node:lts-alpine
 
 MAINTAINER Stephan Leicht Vogt <stephan@jessie.ai>
 
@@ -16,5 +16,10 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.schema-version="1.0"
 
 # Commands
-RUN \
-  npm install -g @angular/cli firebase-tools
+RUN npm i -g npm@latest \
+            typescript@latest \
+            @angular/cli@latest \
+            firebase-tools@latest \
+            mocha@latest \
+            nx@latest \
+        --no-audit
