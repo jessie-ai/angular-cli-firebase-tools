@@ -1,0 +1,70 @@
+name: default
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 3 * * *'
+  pull_request:
+    branches:
+      - '**'
+
+env:
+  REPOSITORY: jessieai/angular-cli-firebase-tools
+  VERSION: 1.0
+
+jobs:
+  firebase-tools:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        context: [
+          {
+            dockerfile: Dockerfile,
+            node: node-lts,
+            os: alpine
+          },
+#          {
+#            dockerfile: Dockerfile.node16,
+#            node: node-16,
+#            os: alpine
+#          },
+#          {
+#            dockerfile: Dockerfile.node14,
+#            node: node-14,
+#            os: alpine
+#          },
+#          {
+#            dockerfile: Dockerfile.node12,
+#            node: node-12,
+#            os: alpine
+#          }
+        ]
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: Build the Docker image
+        run: >
+          docker build . --no-cache --pull
+          -f ${{ matrix.context.dockerfile }}
+          -t angular-cli-firebase-tools
+          --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          --build-arg VERSION=${{ cat VERSION }}
+          --build-arg VCS_REF=${{ git rev-parse --short HEAD }}
+
+      - name: Login to Docker Hub
+        if: ${{ github.event_name != 'pull_request' }}
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Tag the Docker image
+        if: ${{ github.event_name != 'pull_request' }}
+        run: |
+          docker tag angular-cli-firebase-tools ${{ env.REPOSITORY }}
+
+      - name: Publish the Docker image
+        if: ${{ github.event_name != 'pull_request' }}
+        run: |
+          docker push ${{ env.REPOSITORY }}
