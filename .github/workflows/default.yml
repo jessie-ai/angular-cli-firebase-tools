@@ -8,14 +8,10 @@ on:
   pull_request:
     branches:
       - '**'
-  workflow_call:
-    secrets:
-      DOCKER_USER:
-        required: true
 
 env:
   REPOSITORY: jessieai/angular-cli-firebase-tools
-  VERSION: 10.7.2
+  VERSION: 10.8.0
 
 jobs:
   firebase-tools:
@@ -29,27 +25,19 @@ jobs:
             node: node-lts,
             os: alpine
           },
-#          {
-#            dockerfile: Dockerfile.node16,
-#            node: node-16,
-#            os: alpine
-#          },
-#          {
-#            dockerfile: Dockerfile.node14,
-#            node: node-14,
-#            os: alpine
-#          },
-#          {
-#            dockerfile: Dockerfile.node12,
-#            node: node-12,
-#            os: alpine
-#          }
+          {
+            dockerfile: Dockerfile.node16,
+            node: node-16,
+            os: alpine
+          },
+          {
+            dockerfile: Dockerfile.node14,
+            node: node-14,
+            os: alpine
+          }
         ]
 
     steps:
-      - name: Use a repo or org secret from the calling workflow.
-        run: echo ${{ secrets.DOCKER_USER }}
-
       - name: Checkout the repository
         uses: actions/checkout@v2
 
