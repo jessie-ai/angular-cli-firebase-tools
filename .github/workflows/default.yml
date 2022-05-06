@@ -48,7 +48,7 @@ jobs:
 
     steps:
       - name: Use a repo or org secret from the calling workflow.
-        uses: echo ${{ secrets.DOCKER_USER }}
+        run: echo ${{ secrets.DOCKER_USER }}
 
       - name: Checkout the repository
         uses: actions/checkout@v2
