@@ -8,6 +8,10 @@ on:
   pull_request:
     branches:
       - '**'
+  workflow_call:
+    secrets:
+      DOCKER_USER:
+        required: true
 
 env:
   REPOSITORY: jessieai/angular-cli-firebase-tools
@@ -43,6 +47,8 @@ jobs:
         ]
 
     steps:
+      - name: Use a repo or org secret from the calling workflow.
+        uses: echo ${{ secrets.DOCKER_USER }}
 
       - name: Checkout the repository
         uses: actions/checkout@v2
