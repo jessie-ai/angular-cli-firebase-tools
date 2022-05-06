@@ -25,9 +25,8 @@ RUN npm i -g @angular/cli@latest \
             mocha@latest \
             nx@latest \
                 --no-audit&& \
-            yarn cache clean && \
+            npm cach clean --force && \
             firebase -V && \
-            java -version && \
             chown -R node:node $HOME
 USER node
 VOLUME $HOME/.cache
