@@ -1,0 +1,33 @@
+FROM node:18-alpine
+
+MAINTAINER Stephan Leicht Vogt <stephan@jessie.ai>
+
+# Build-time metadata as defined at http://label-schema.org
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VERSION
+
+LABEL org.label-schema.schema-version="1.0" \
+      org.label-schema.name="angular-cli-firebase-tools" \
+      org.label-schema.version=${VERSION} \
+      org.label-schema.build-date=${BUILD_DATE} \
+      org.label-schema.description="Docker image based on NodeJS official image with Angular CLI and Firebase Tools installed." \
+      org.label-schema.url="https://github.com/firebase/firebase-tools/" \
+      org.label-schema.vcs-url="https://github.com/jessie-ai/angular-cli-firebase-tools" \
+      org.label-schema.vcs-ref=${VCS_REF}
+
+ENV FIREBASE_TOOLS_VERSION=${VERSION}
+ENV HOME=/home/node
+
+# Commands
+RUN npm i -g @angular/cli@latest \
+            firebase-tools@${VERSION} \
+            mocha@latest \
+            nx@latest \
+                --no-audit&& \
+            npm cach clean --force && \
+            firebase -V && \
+            chown -R node:node $HOME
+USER node
+VOLUME $HOME/.cache
+WORKDIR $HOME
