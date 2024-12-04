@@ -11,7 +11,7 @@ on:
 
 env:
   REPOSITORY: jessieai/angular-cli-firebase-tools
-  VERSION: 13.10.1
+  VERSION: 13.27.0
 
 jobs:
   firebase-tools:
@@ -31,8 +31,8 @@ jobs:
             os: alpine
           },
           {
-            dockerfile: Dockerfile.node18,
-            node: node-18,
+            dockerfile: Dockerfile.node22,
+            node: node-22,
             os: alpine
           }
         ]
