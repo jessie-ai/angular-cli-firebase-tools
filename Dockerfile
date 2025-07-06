@@ -18,16 +18,20 @@ LABEL org.label-schema.schema-version="1.0" \
 
 ENV FIREBASE_TOOLS_VERSION=${VERSION}
 ENV HOME=/home/node
+ENV BUN_INSTALL="$HOME/.bun"
+ENV PATH="$BUN_INSTALL/bin:$PATH"
 
 # Commands
-RUN npm i -g @angular/cli@latest \
+RUN npm install -g bun
+RUN bun install --global @angular/cli@latest \
             firebase-tools@${VERSION} \
             mocha@latest \
-            nx@latest \
-                --no-audit&& \
-            npm cach clean --force && \
-            firebase -V && \
-            chown -R node:node $HOME
+            nx@latest --no-audit&& \
+    npm cache clean --force && \
+    rm -rf ~/.bun/install/cache && \
+    firebase -V && \
+    chown -R node:node $HOME
+
 USER node
 VOLUME $HOME/.cache
 WORKDIR $HOME
