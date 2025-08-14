@@ -26,7 +26,8 @@ RUN npm install -g bun
 RUN bun install --global @angular/cli@latest \
             firebase-tools@${VERSION} \
             mocha@latest \
-            nx@latest --no-audit&& \
+            nx@latest --no-audit \
+            pnpm@latest && \
     npm cache clean --force && \
     rm -rf ~/.bun/install/cache && \
     firebase -V && \
