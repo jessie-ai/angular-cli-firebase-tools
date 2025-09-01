@@ -29,16 +29,12 @@ Version-specific tags are also available following the pattern: `{version}-{node
 ## Usage
 
 ### Pull the image
-
 ```bash
 docker pull jessieai/angular-cli-firebase-tools:latest
 ```
-```
-
 
 ### Basic usage
-
-```shell script
+```bash
 # Run interactively
 docker run -it --rm jessieai/angular-cli-firebase-tools:latest
 
@@ -46,39 +42,29 @@ docker run -it --rm jessieai/angular-cli-firebase-tools:latest
 docker run -it --rm -v $(pwd):/app -w /app jessieai/angular-cli-firebase-tools:latest
 ```
 
-
 ### Common use cases
 
 #### Create a new Angular project
-
-```shell script
+```bash
 docker run -it --rm -v $(pwd):/app -w /app jessieai/angular-cli-firebase-tools:latest ng new my-app
 ```
 
-
 #### Build an Angular project
-
-```shell script
+```bash
 docker run -it --rm -v $(pwd):/app -w /app jessieai/angular-cli-firebase-tools:latest ng build
 ```
 
-
 #### Deploy to Firebase
-
-```shell script
+```bash
 docker run -it --rm -v $(pwd):/app -w /app jessieai/angular-cli-firebase-tools:latest firebase deploy
 ```
 
-
 #### Run tests with Mocha
-
-```shell script
+```bash
 docker run -it --rm -v $(pwd):/app -w /app jessieai/angular-cli-firebase-tools:latest mocha test/
 ```
 
-
 ## Docker Compose Example
-
 ```yaml
 version: '3.8'
 services:
@@ -94,7 +80,6 @@ services:
 volumes:
   node_modules:
 ```
-
 
 ## Features
 
