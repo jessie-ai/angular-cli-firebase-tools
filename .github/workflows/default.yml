@@ -21,19 +21,22 @@ jobs:
       matrix:
         context: [
           {
-            dockerfile: Dockerfile,
-            node: node-lts,
-            os: alpine
+            node_tag: 'lts-alpine',
+            node: 'node-lts',
+            os: 'alpine',
+            latest: true
           },
           {
-            dockerfile: Dockerfile.node20,
-            node: node-20,
-            os: alpine
+            node_tag: '20-alpine',
+            node: 'node-20',
+            os: 'alpine',
+            latest: false
           },
           {
-            dockerfile: Dockerfile.node22,
-            node: node-22,
-            os: alpine
+            node_tag: '22-alpine',
+            node: 'node-22',
+            os: 'alpine',
+            latest: false
           }
         ]
 
@@ -44,11 +47,11 @@ jobs:
       - name: Build the Docker image
         run: >
           docker build . --no-cache --pull
-          -f ${{ matrix.context.dockerfile }}
           -t ${{ env.REPOSITORY }}:${{ env.VERSION }}-${{ matrix.context.node }}
           -t ${{ env.REPOSITORY }}:${{ env.VERSION }}-${{ matrix.context.node }}-${{ matrix.context.os }}
           -t ${{ env.REPOSITORY }}:latest-${{ matrix.context.node }}
           -t ${{ env.REPOSITORY }}:latest-${{ matrix.context.node }}-${{ matrix.context.os }}
+          --build-arg NODE_TAG=${{ matrix.context.node_tag }}
           --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           --build-arg VERSION=${{ env.VERSION }}
           --build-arg VCS_REF=${{ github.sha }}
@@ -65,7 +68,7 @@ jobs:
           docker push ${{ env.REPOSITORY }}:latest-${{ matrix.context.node }}
 
       - name: Publish the Docker image (Latest)
-        if: ${{ github.event_name != 'pull_request' && matrix.context.dockerfile == 'Dockerfile' }}
+        if: ${{ github.event_name != 'pull_request' && matrix.context.latest }}
         run: |
           docker tag ${{ env.REPOSITORY }}:${{ env.VERSION }}-${{ matrix.context.node }}-${{ matrix.context.os }} ${{ env.REPOSITORY }}:${{ env.VERSION }}
           docker tag ${{ env.REPOSITORY }}:${{ env.VERSION }}-${{ matrix.context.node }}-${{ matrix.context.os }} ${{ env.REPOSITORY }}:latest-${{ matrix.context.os }}

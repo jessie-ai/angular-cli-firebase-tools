@@ -1,4 +1,5 @@
-FROM node:lts-alpine
+ARG NODE_TAG=lts-alpine
+FROM node:${NODE_TAG}
 
 MAINTAINER Stephan Leicht Vogt <stephan@jessie.ai>
 
