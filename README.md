@@ -14,6 +14,7 @@ This Docker image provides a ready-to-use environment for Angular development wi
 - **Firebase CLI** (tools for Firebase project management)
 - **Mocha** (testing framework)
 - **Nx** (build system with first-class monorepo support)
+- **PNPM** (fast, disk space efficient package manager)
 
 ## Available Tags
 
@@ -98,7 +99,9 @@ The image is automatically built and published via GitHub Actions with the follo
 
 ## Source Code
 
-The source code and Dockerfiles are available on [GitHub](https://github.com/jessie-ai/angular-cli-firebase-tools).
+The source code and Dockerfile are available on [GitHub](https://github.com/jessie-ai/angular-cli-firebase-tools).
+
+The build uses a single Dockerfile with build arguments to create images for different Node.js versions.
 
 ## Docker Hub
 
